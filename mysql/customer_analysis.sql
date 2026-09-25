@@ -1,7 +1,7 @@
 -- Customer Analysis 
 ----- Total Customers
 USE banking_analysis2;
-SELECT count(customer_id) AS total_customers
+SELECT count(DISTINCT customer_id) AS total_customers
 FROM banking_data;
 
 ----- Customers by Segment

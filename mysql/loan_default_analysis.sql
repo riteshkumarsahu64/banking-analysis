@@ -1,12 +1,12 @@
 -- Loan Default Analysis
 USE banking_analysis2;
 SELECT
-    SUM(loan_status = 'Defaulted') AS defaulted_loans,
-    COUNT(*) AS total_loans,
+    COUNT(DISTINCT CASE WHEN loan_status = 'Defaulted' THEN customer_id END) AS defaulted_customers,
+    COUNT(DISTINCT customer_id) AS total_unique_customers,
     ROUND(
-        100 * SUM(loan_status = 'Defaulted') / COUNT(*),
+        100 * COUNT(DISTINCT CASE WHEN loan_status = 'Defaulted' THEN customer_id END) / COUNT(DISTINCT customer_id),
         2
-    ) AS default_rate
+    ) AS default_rate_by_customer
 FROM banking_data
 WHERE loan_flag = 'Yes';
 
@@ -15,7 +15,7 @@ SELECT
     loan_type,
     COUNT(*) AS loans,
     SUM(loan_amount) AS total_loan_amount,
-    SUM(loan_status = 'Defaulted') AS defaults
+    COUNT(DISTINCT case WHEN loan_status = 'Defaulted' THEN customer_id END) AS defaults
 FROM banking_data
 WHERE loan_flag = 'Yes'
 GROUP BY loan_type;
